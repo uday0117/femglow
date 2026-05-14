@@ -8,4 +8,5 @@ class AppRoutes {
   static const String settings = '/settings';
   static const String logPeriod = '/log-period';
   static const String moodTracking = '/mood-tracking';
+  static const String symptomTracking = '/symptom-tracking';
 }

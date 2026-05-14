@@ -18,8 +18,8 @@ class SplashController extends GetxController {
     final bool hasSeenWelcome = storage.read('has_seen_welcome') ?? false;
 
     if (hasSeenWelcome) {
-      // Navigate to home (will be implemented later)
-      Get.offAllNamed(AppRoutes.welcome);
+      // Navigate to home
+      Get.offAllNamed(AppRoutes.home);
     } else {
       // Navigate to welcome/onboarding
       Get.offAllNamed(AppRoutes.welcome);
