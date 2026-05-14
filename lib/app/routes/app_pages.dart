@@ -1,3 +1,11 @@
+import 'package:femglow/app/modules/calendar/bindings/calendar_binding.dart';
+import 'package:femglow/app/modules/calendar/views/calendar_view.dart';
+import 'package:femglow/app/modules/home/bindings/home_binding.dart';
+import 'package:femglow/app/modules/home/views/home_view.dart';
+import 'package:femglow/app/modules/insights/bindings/insights_binding.dart';
+import 'package:femglow/app/modules/insights/views/insights_view.dart';
+import 'package:femglow/app/modules/log_period/bindings/log_period_binding.dart';
+import 'package:femglow/app/modules/log_period/views/log_period_view.dart';
 import 'package:femglow/app/modules/splash/bindings/splash_binding.dart';
 import 'package:femglow/app/modules/splash/views/splash_view.dart';
 import 'package:femglow/app/modules/welcome/bindings/welcome_binding.dart';
@@ -18,6 +26,26 @@ class AppPages {
       name: AppRoutes.welcome,
       page: () => const WelcomeView(),
       binding: WelcomeBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.home,
+      page: () => const HomeView(),
+      binding: HomeBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.logPeriod,
+      page: () => const LogPeriodView(),
+      binding: LogPeriodBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.calendar,
+      page: () => const CalendarView(),
+      binding: CalendarBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.insights,
+      page: () => const InsightsView(),
+      binding: InsightsBinding(),
     ),
   ];
 }

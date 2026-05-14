@@ -1,5 +1,6 @@
 import 'package:femglow/app/core/theme/app_theme.dart';
 import 'package:femglow/app/core/values/app_strings.dart';
+import 'package:femglow/app/data/services/cycle_service.dart';
 import 'package:femglow/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,9 @@ void main() async {
 
   // Initialize GetStorage
   await GetStorage.init();
+
+  // Initialize services
+  Get.put(CycleService());
 
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([

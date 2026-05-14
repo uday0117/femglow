@@ -1,3 +1,4 @@
+import 'package:femglow/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -75,13 +76,7 @@ class WelcomeController extends GetxController {
 
   void completeOnboarding() {
     storage.write('has_seen_welcome', true);
-    // For now, loop back to welcome. Later we'll navigate to home
-    Get.snackbar(
-      'Welcome!',
-      'Home screen will be implemented next',
-      snackPosition: SnackPosition.BOTTOM,
-      duration: const Duration(seconds: 2),
-    );
+    Get.offAllNamed(AppRoutes.home);
   }
 
   void onPageChanged(int index) {
