@@ -1,4 +1,5 @@
 import 'package:femglow/app/routes/app_routes.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -8,20 +9,40 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    debugPrint('✅ SplashController onInit called');
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    debugPrint('✅ SplashController onReady called');
     _navigateToNext();
   }
 
   Future<void> _navigateToNext() async {
-    await Future.delayed(const Duration(seconds: 3));
+    debugPrint('🔄 Starting navigation delay...');
+    // Shorter delay since native splash is now handled properly
+    await Future.delayed(const Duration(milliseconds: 1500));
+    debugPrint('✅ Delay completed');
 
-    // Check if user has completed onboarding
-    final bool hasSeenWelcome = storage.read('has_seen_welcome') ?? false;
+    try {
+      // Check if user has completed onboarding
+      final bool hasSeenWelcome = storage.read('has_seen_welcome') ?? false;
+      debugPrint('📱 has_seen_welcome: $hasSeenWelcome');
 
-    if (hasSeenWelcome) {
-      // Navigate to home
-      Get.offAllNamed(AppRoutes.home);
-    } else {
-      // Navigate to welcome/onboarding
+      if (hasSeenWelcome) {
+        debugPrint('🏠 Navigating to home...');
+        // Navigate to home
+        Get.offAllNamed(AppRoutes.home);
+      } else {
+        debugPrint('👋 Navigating to welcome...');
+        // Navigate to welcome/onboarding
+        Get.offAllNamed(AppRoutes.welcome);
+      }
+      debugPrint('✅ Navigation completed');
+    } catch (e) {
+      debugPrint('❌ Error during navigation: $e');
+      // Fallback to welcome if any error occurs
       Get.offAllNamed(AppRoutes.welcome);
     }
   }

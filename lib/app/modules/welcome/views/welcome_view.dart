@@ -1,3 +1,4 @@
+import 'package:femglow/app/core/utils/responsive_util.dart';
 import 'package:femglow/app/core/values/app_colors.dart';
 import 'package:femglow/app/core/values/app_strings.dart';
 import 'package:femglow/app/modules/welcome/controllers/welcome_controller.dart';
@@ -95,48 +96,54 @@ class WelcomeView extends GetView<WelcomeController> {
   }
 
   Widget _buildOnboardingPage(OnboardingInfo page) {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Icon
-          Container(
-            width: 150,
-            height: 150,
-            decoration: BoxDecoration(
-              color: page.color.withOpacity(0.1),
-              shape: BoxShape.circle,
+    return Builder(
+      builder: (context) => Padding(
+        padding: EdgeInsets.all(ResponsiveUtil.spacing(context, 24)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Icon
+            Container(
+              width: ResponsiveUtil.spacing(context, 150),
+              height: ResponsiveUtil.spacing(context, 150),
+              decoration: BoxDecoration(
+                color: page.color.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                page.icon,
+                size: ResponsiveUtil.sp(context, 80),
+                color: page.color,
+              ),
             ),
-            child: Icon(page.icon, size: 80, color: page.color),
-          ),
 
-          const SizedBox(height: 48),
+            SizedBox(height: ResponsiveUtil.spacing(context, 48)),
 
-          // Title
-          Text(
-            page.title,
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+            // Title
+            Text(
+              page.title,
+              style: TextStyle(
+                fontSize: ResponsiveUtil.sp(context, 28),
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
 
-          const SizedBox(height: 16),
+            SizedBox(height: ResponsiveUtil.spacing(context, 16)),
 
-          // Description
-          Text(
-            page.description,
-            style: const TextStyle(
-              fontSize: 16,
-              color: AppColors.textSecondary,
-              height: 1.5,
+            // Description
+            Text(
+              page.description,
+              style: TextStyle(
+                fontSize: ResponsiveUtil.sp(context, 16),
+                color: AppColors.textSecondary,
+                height: 1.5,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

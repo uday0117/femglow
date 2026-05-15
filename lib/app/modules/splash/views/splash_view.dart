@@ -1,3 +1,4 @@
+import 'package:femglow/app/core/utils/responsive_util.dart';
 import 'package:femglow/app/core/values/app_colors.dart';
 import 'package:femglow/app/core/values/app_strings.dart';
 import 'package:femglow/app/modules/splash/controllers/splash_controller.dart';
@@ -17,11 +18,13 @@ class SplashView extends GetView<SplashController> {
           children: [
             // App Icon/Logo
             Container(
-              width: 120,
-              height: 120,
+              width: ResponsiveUtil.spacing(context, 120),
+              height: ResponsiveUtil.spacing(context, 120),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(
+                  ResponsiveUtil.radius(context, 30),
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
@@ -30,39 +33,39 @@ class SplashView extends GetView<SplashController> {
                   ),
                 ],
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.favorite,
-                size: 60,
+                size: ResponsiveUtil.sp(context, 60),
                 color: AppColors.primary,
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: ResponsiveUtil.spacing(context, 24)),
             // App Name
-            const Text(
+            Text(
               AppStrings.appName,
               style: TextStyle(
-                fontSize: 36,
+                fontSize: ResponsiveUtil.sp(context, 36),
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 letterSpacing: 1.2,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: ResponsiveUtil.spacing(context, 8)),
             // Tagline
-            const Text(
+            Text(
               AppStrings.appTagline,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: ResponsiveUtil.sp(context, 16),
                 color: Colors.white70,
                 letterSpacing: 0.5,
               ),
             ),
-            const SizedBox(height: 48),
+            SizedBox(height: ResponsiveUtil.spacing(context, 48)),
             // Loading Indicator
-            const SizedBox(
-              width: 40,
-              height: 40,
-              child: CircularProgressIndicator(
+            SizedBox(
+              width: ResponsiveUtil.spacing(context, 40),
+              height: ResponsiveUtil.spacing(context, 40),
+              child: const CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 strokeWidth: 3,
               ),
