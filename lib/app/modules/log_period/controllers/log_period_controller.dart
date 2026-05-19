@@ -1,5 +1,6 @@
 import 'package:femglow/app/data/models/period_entry.dart';
 import 'package:femglow/app/data/services/cycle_service.dart';
+import 'package:femglow/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -58,11 +59,18 @@ class LogPeriodController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
+        duration: const Duration(seconds: 3),
       );
       return;
     }
 
     try {
+      // Show loading
+      Get.dialog(
+        const Center(child: CircularProgressIndicator()),
+        barrierDismissible: false,
+      );
+
       // Create period entry
       final period = PeriodEntry(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -76,24 +84,39 @@ class LogPeriodController extends GetxController {
       // Save to service
       await cycleService.addPeriod(period);
 
-      // Show success message
+      // Close loading dialog
+      Get.back();
+
+      // Show success message with longer duration
       Get.snackbar(
         'Success',
         'Period logged successfully!',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green,
         colorText: Colors.white,
+        duration: const Duration(seconds: 2),
+        margin: const EdgeInsets.all(16),
       );
 
-      // Go back
-      Get.back();
+      // Wait a moment for user to see snackbar, then go to home
+      await Future.delayed(const Duration(milliseconds: 500));
+      Get.offAllNamed(
+        AppRoutes.home,
+      ); // Navigate to home and clear navigation stack
     } catch (e) {
+      // Close loading dialog if it's open
+      if (Get.isDialogOpen ?? false) {
+        Get.back();
+      }
+
       Get.snackbar(
         'Error',
         'Failed to save period: $e',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(16),
       );
     }
   }

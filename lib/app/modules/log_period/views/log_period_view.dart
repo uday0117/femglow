@@ -20,9 +20,11 @@ class LogPeriodView extends GetView<LogPeriodController> {
             // Start Date
             _buildSectionTitle('Period Start Date'),
             const SizedBox(height: 12),
-            _buildDateSelector(
-              date: controller.startDate.value,
-              onTap: () => _selectStartDate(context),
+            Obx(
+              () => _buildDateSelector(
+                date: controller.startDate.value,
+                onTap: () => _selectStartDate(context),
+              ),
             ),
             const SizedBox(height: 24),
 

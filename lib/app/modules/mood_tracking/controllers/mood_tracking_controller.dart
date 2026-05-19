@@ -75,41 +75,73 @@ class MoodTrackingController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(16),
       );
       return;
     }
 
-    final existingMood = moodService.getMoodForDate(selectedDate.value);
+    try {
+      // Show loading
+      Get.dialog(
+        const Center(child: CircularProgressIndicator()),
+        barrierDismissible: false,
+      );
 
-    if (existingMood != null) {
-      // Update existing mood
-      final updatedMood = existingMood.copyWith(
-        mood: selectedMood.value,
-        emotions: selectedEmotions.toList(),
-        notes: notesController.text.isNotEmpty ? notesController.text : null,
+      final existingMood = moodService.getMoodForDate(selectedDate.value);
+
+      if (existingMood != null) {
+        // Update existing mood
+        final updatedMood = existingMood.copyWith(
+          mood: selectedMood.value,
+          emotions: selectedEmotions.toList(),
+          notes: notesController.text.isNotEmpty ? notesController.text : null,
+        );
+        await moodService.updateMood(updatedMood);
+      } else {
+        // Create new mood
+        final newMood = MoodEntry(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          date: selectedDate.value,
+          mood: selectedMood.value,
+          emotions: selectedEmotions.toList(),
+          notes: notesController.text.isNotEmpty ? notesController.text : null,
+        );
+        await moodService.addMood(newMood);
+      }
+
+      // Close loading dialog
+      Get.back();
+
+      Get.snackbar(
+        'Success',
+        'Mood saved successfully',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 2),
+        margin: const EdgeInsets.all(16),
       );
-      await moodService.updateMood(updatedMood);
-    } else {
-      // Create new mood
-      final newMood = MoodEntry(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        date: selectedDate.value,
-        mood: selectedMood.value,
-        emotions: selectedEmotions.toList(),
-        notes: notesController.text.isNotEmpty ? notesController.text : null,
+
+      // Wait a moment for user to see snackbar, then go back
+      await Future.delayed(const Duration(milliseconds: 500));
+      Get.back();
+    } catch (e) {
+      // Close loading dialog if it's open
+      if (Get.isDialogOpen ?? false) {
+        Get.back();
+      }
+
+      Get.snackbar(
+        'Error',
+        'Failed to save mood: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(16),
       );
-      await moodService.addMood(newMood);
     }
-
-    Get.snackbar(
-      'Success',
-      'Mood saved successfully',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
-    );
-
-    Get.back();
   }
 
   Future<void> selectDate(BuildContext context) async {

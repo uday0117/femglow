@@ -5,11 +5,16 @@ import 'package:get/get.dart';
 class HomeController extends GetxController {
   final CycleService cycleService = Get.find<CycleService>();
 
-  // Get cycle information
+  // Get cycle information (reactive getters that access cycleData.value to trigger Obx)
   int? get currentCycleDay => cycleService.cycleData.value.currentCycleDay;
   int? get daysUntilNextPeriod =>
       cycleService.cycleData.value.daysUntilNextPeriod;
-  bool get isOnPeriod => cycleService.isOnPeriod;
+  bool get isOnPeriod {
+    // Access reactive cycleData to trigger Obx updates
+    final periods = cycleService.cycleData.value.periods;
+    return periods.any((p) => p.isOngoing);
+  }
+
   bool get isInFertileWindow => cycleService.cycleData.value.isInFertileWindow;
 
   // Navigate to period logging

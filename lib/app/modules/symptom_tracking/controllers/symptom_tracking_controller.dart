@@ -54,6 +54,8 @@ class SymptomTrackingController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(16),
       );
       return;
     }
@@ -65,32 +67,65 @@ class SymptomTrackingController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(16),
       );
       return;
     }
 
-    final newSymptom = SymptomEntry(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      date: selectedDate.value,
-      symptom: selectedSymptom.value,
-      intensity: selectedIntensity.value,
-      notes: notesController.text.isNotEmpty ? notesController.text : null,
-    );
+    try {
+      // Show loading
+      Get.dialog(
+        const Center(child: CircularProgressIndicator()),
+        barrierDismissible: false,
+      );
 
-    await symptomService.addSymptom(newSymptom);
+      final newSymptom = SymptomEntry(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        date: selectedDate.value,
+        symptom: selectedSymptom.value,
+        intensity: selectedIntensity.value,
+        notes: notesController.text.isNotEmpty ? notesController.text : null,
+      );
 
-    Get.snackbar(
-      'Success',
-      'Symptom logged successfully',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
-    );
+      await symptomService.addSymptom(newSymptom);
 
-    // Reset form
-    selectedSymptom.value = '';
-    selectedIntensity.value = '';
-    notesController.clear();
+      // Close loading dialog
+      Get.back();
+
+      Get.snackbar(
+        'Success',
+        'Symptom logged successfully',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 2),
+        margin: const EdgeInsets.all(16),
+      );
+
+      // Wait a moment for user to see snackbar
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      // Reset form
+      selectedSymptom.value = '';
+      selectedIntensity.value = '';
+      notesController.clear();
+    } catch (e) {
+      // Close loading dialog if it's open
+      if (Get.isDialogOpen ?? false) {
+        Get.back();
+      }
+
+      Get.snackbar(
+        'Error',
+        'Failed to log symptom: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+        margin: const EdgeInsets.all(16),
+      );
+    }
   }
 
   Future<void> selectDate(BuildContext context) async {
