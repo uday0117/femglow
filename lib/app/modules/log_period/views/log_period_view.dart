@@ -73,6 +73,8 @@ class LogPeriodView extends GetView<LogPeriodController> {
                 ),
               ),
             ),
+            // Bottom padding to ensure button is always visible
+            SizedBox(height: MediaQuery.of(context).viewInsets.bottom + 40),
           ],
         ),
       ),
@@ -95,31 +97,35 @@ class LogPeriodView extends GetView<LogPeriodController> {
     required VoidCallback onTap,
     bool isOptional = false,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.background,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.primary.withOpacity(0.3)),
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.calendar_today, color: AppColors.primary),
-            const SizedBox(width: 12),
-            Text(
-              date != null
-                  ? DateFormat('MMM dd, yyyy').format(date)
-                  : (isOptional ? 'Not set' : 'Select date'),
-              style: TextStyle(
-                fontSize: 16,
-                color: date != null
-                    ? AppColors.textPrimary
-                    : AppColors.textSecondary,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: AppColors.background,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+          ),
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Icon(Icons.calendar_today, color: AppColors.primary),
+              const SizedBox(width: 12),
+              Text(
+                date != null
+                    ? DateFormat('MMM dd, yyyy').format(date)
+                    : (isOptional ? 'Not set' : 'Select date'),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: date != null
+                      ? AppColors.textPrimary
+                      : AppColors.textSecondary,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -130,33 +136,39 @@ class LogPeriodView extends GetView<LogPeriodController> {
       children: controller.flowOptions.map((option) {
         final isSelected = controller.flowIntensity.value == option;
         return Expanded(
-          child: GestureDetector(
-            onTap: () => controller.updateFlowIntensity(option),
-            child: Container(
-              margin: const EdgeInsets.only(right: 8),
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? AppColors.primary.withOpacity(0.1)
-                    : AppColors.background,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => controller.updateFlowIntensity(option),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: isSelected
-                      ? AppColors.primary
-                      : AppColors.primary.withOpacity(0.3),
-                  width: isSelected ? 2 : 1,
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  option.capitalize!,
-                  style: TextStyle(
+                child: Ink(
+                  decoration: BoxDecoration(
                     color: isSelected
-                        ? AppColors.primary
-                        : AppColors.textSecondary,
-                    fontWeight: isSelected
-                        ? FontWeight.w600
-                        : FontWeight.normal,
+                        ? AppColors.primary.withOpacity(0.1)
+                        : AppColors.background,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.primary.withOpacity(0.3),
+                      width: isSelected ? 2 : 1,
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Center(
+                    child: Text(
+                      option.capitalize!,
+                      style: TextStyle(
+                        color: isSelected
+                            ? AppColors.primary
+                            : AppColors.textSecondary,
+                        fontWeight: isSelected
+                            ? FontWeight.w600
+                            : FontWeight.normal,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -173,26 +185,32 @@ class LogPeriodView extends GetView<LogPeriodController> {
       runSpacing: 8,
       children: controller.symptomOptions.map((symptom) {
         final isSelected = controller.selectedSymptoms.contains(symptom);
-        return GestureDetector(
-          onTap: () => controller.toggleSymptom(symptom),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? AppColors.primary.withOpacity(0.1)
-                  : AppColors.background,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
+        return Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => controller.toggleSymptom(symptom),
+            borderRadius: BorderRadius.circular(20),
+            child: Ink(
+              decoration: BoxDecoration(
                 color: isSelected
-                    ? AppColors.primary
-                    : AppColors.primary.withOpacity(0.3),
+                    ? AppColors.primary.withOpacity(0.1)
+                    : AppColors.background,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: isSelected
+                      ? AppColors.primary
+                      : AppColors.primary.withOpacity(0.3),
+                ),
               ),
-            ),
-            child: Text(
-              symptom,
-              style: TextStyle(
-                color: isSelected ? AppColors.primary : AppColors.textSecondary,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Text(
+                symptom,
+                style: TextStyle(
+                  color: isSelected
+                      ? AppColors.primary
+                      : AppColors.textSecondary,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                ),
               ),
             ),
           ),

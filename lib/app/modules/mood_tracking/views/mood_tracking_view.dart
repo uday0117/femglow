@@ -10,10 +10,7 @@ class MoodTrackingView extends GetView<MoodTrackingController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Track Your Mood'),
-        elevation: 0,
-      ),
+      appBar: AppBar(title: const Text('Track Your Mood'), elevation: 0),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -34,8 +31,9 @@ class MoodTrackingView extends GetView<MoodTrackingController> {
                       Icon(Icons.calendar_today, color: AppColors.primary),
                       const SizedBox(width: 12),
                       Text(
-                        DateFormat('EEEE, MMM dd, yyyy')
-                            .format(controller.selectedDate.value),
+                        DateFormat(
+                          'EEEE, MMM dd, yyyy',
+                        ).format(controller.selectedDate.value),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -70,41 +68,46 @@ class MoodTrackingView extends GetView<MoodTrackingController> {
                 children: controller.availableMoods.map((mood) {
                   final isSelected =
                       controller.selectedMood.value == mood['value'];
-                  return GestureDetector(
-                    onTap: () => controller.selectMood(mood['value'] as String),
-                    child: Container(
-                      width: 65,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppColors.primary
-                            : AppColors.primary.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
+                  return Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () =>
+                          controller.selectMood(mood['value'] as String),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Ink(
+                        width: 65,
+                        decoration: BoxDecoration(
                           color: isSelected
                               ? AppColors.primary
-                              : Colors.transparent,
-                          width: 2,
+                              : AppColors.primary.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: isSelected
+                                ? AppColors.primary
+                                : Colors.transparent,
+                            width: 2,
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            mood['emoji'] as String,
-                            style: const TextStyle(fontSize: 32),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            mood['label'] as String,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: isSelected
-                                  ? Colors.white
-                                  : AppColors.textPrimary,
-                              fontWeight: FontWeight.w600,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Column(
+                          children: [
+                            Text(
+                              mood['emoji'] as String,
+                              style: const TextStyle(fontSize: 32),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 4),
+                            Text(
+                              mood['label'] as String,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: isSelected
+                                    ? Colors.white
+                                    : AppColors.textPrimary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -132,8 +135,9 @@ class MoodTrackingView extends GetView<MoodTrackingController> {
                 spacing: 8,
                 runSpacing: 8,
                 children: controller.availableEmotions.map((emotion) {
-                  final isSelected =
-                      controller.selectedEmotions.contains(emotion);
+                  final isSelected = controller.selectedEmotions.contains(
+                    emotion,
+                  );
                   return FilterChip(
                     label: Text(emotion),
                     selected: isSelected,
@@ -143,8 +147,9 @@ class MoodTrackingView extends GetView<MoodTrackingController> {
                     checkmarkColor: AppColors.primary,
                     labelStyle: TextStyle(
                       color: AppColors.textPrimary,
-                      fontWeight:
-                          isSelected ? FontWeight.w600 : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.normal,
                     ),
                   );
                 }).toList(),
@@ -169,7 +174,8 @@ class MoodTrackingView extends GetView<MoodTrackingController> {
               controller: controller.notesController,
               maxLines: 4,
               decoration: InputDecoration(
-                hintText: 'Add any additional notes about how you\'re feeling...',
+                hintText:
+                    'Add any additional notes about how you\'re feeling...',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -200,6 +206,8 @@ class MoodTrackingView extends GetView<MoodTrackingController> {
                 ),
               ),
             ),
+            // Bottom padding to ensure button is always visible
+            SizedBox(height: MediaQuery.of(context).viewInsets.bottom + 40),
           ],
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:femglow/app/modules/settings/controllers/settings_controller.dar
 import 'package:femglow/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({super.key});
@@ -109,7 +110,7 @@ class SettingsView extends GetView<SettingsController> {
             onTap: () {
               Get.snackbar(
                 'FemGlow',
-                'Version 1.0.0\nYour personal period tracking companion',
+                'Version 1.0.1\nYour personal period tracking companion',
                 snackPosition: SnackPosition.BOTTOM,
               );
             },
@@ -117,12 +118,38 @@ class SettingsView extends GetView<SettingsController> {
           _buildListTile(
             icon: Icons.privacy_tip,
             title: 'Privacy Policy',
-            onTap: () {},
+            onTap: () async {
+              final url = Uri.parse(
+                'https://uday0117.github.io/femglow/PRIVACY_POLICY.html',
+              );
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              } else {
+                Get.snackbar(
+                  'Error',
+                  'Could not open Privacy Policy',
+                  snackPosition: SnackPosition.BOTTOM,
+                );
+              }
+            },
           ),
           _buildListTile(
             icon: Icons.description,
             title: 'Terms & Conditions',
-            onTap: () {},
+            onTap: () async {
+              final url = Uri.parse(
+                'https://uday0117.github.io/femglow/TERMS_AND_CONDITIONS.html',
+              );
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              } else {
+                Get.snackbar(
+                  'Error',
+                  'Could not open Terms & Conditions',
+                  snackPosition: SnackPosition.BOTTOM,
+                );
+              }
+            },
           ),
 
           const SizedBox(height: 32),

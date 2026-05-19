@@ -137,6 +137,9 @@ class ProfileView extends GetView<ProfileController> {
 
             const SizedBox(height: 24),
 
+            // Bottom padding to ensure button is always visible
+            SizedBox(height: MediaQuery.of(context).viewInsets.bottom + 20),
+
             // Account Stats (Optional)
             _buildStatsCard(),
           ],

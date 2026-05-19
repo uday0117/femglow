@@ -182,30 +182,34 @@ class HomeView extends GetView<HomeController> {
     required Color color,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(ResponsiveUtil.spacing(context, 20)),
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(
-            ResponsiveUtil.radius(context, 16),
-          ),
-          border: Border.all(color: color.withOpacity(0.3)),
-        ),
-        child: Column(
-          children: [
-            Icon(icon, color: color, size: ResponsiveUtil.sp(context, 32)),
-            SizedBox(height: ResponsiveUtil.spacing(context, 8)),
-            Text(
-              label,
-              style: TextStyle(
-                color: color,
-                fontWeight: FontWeight.w600,
-                fontSize: ResponsiveUtil.sp(context, 14),
-              ),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(ResponsiveUtil.radius(context, 16)),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(
+              ResponsiveUtil.radius(context, 16),
             ),
-          ],
+            border: Border.all(color: color.withOpacity(0.3)),
+          ),
+          padding: EdgeInsets.all(ResponsiveUtil.spacing(context, 20)),
+          child: Column(
+            children: [
+              Icon(icon, color: color, size: ResponsiveUtil.sp(context, 32)),
+              SizedBox(height: ResponsiveUtil.spacing(context, 8)),
+              Text(
+                label,
+                style: TextStyle(
+                  color: color,
+                  fontWeight: FontWeight.w600,
+                  fontSize: ResponsiveUtil.sp(context, 14),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

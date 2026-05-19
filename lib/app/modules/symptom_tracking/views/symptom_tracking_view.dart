@@ -123,41 +123,46 @@ class SymptomTrackingView extends GetView<SymptomTrackingController> {
                 return Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: GestureDetector(
-                      onTap: () =>
-                          controller.selectIntensity(level['value'] as String),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppColors.primary
-                              : AppColors.primary.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () => controller.selectIntensity(
+                          level['value'] as String,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Ink(
+                          decoration: BoxDecoration(
                             color: isSelected
                                 ? AppColors.primary
-                                : Colors.transparent,
-                            width: 2,
+                                : AppColors.primary.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : Colors.transparent,
+                              width: 2,
+                            ),
                           ),
-                        ),
-                        child: Column(
-                          children: [
-                            Text(
-                              level['color'] as String,
-                              style: const TextStyle(fontSize: 24),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              level['label'] as String,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: isSelected
-                                    ? Colors.white
-                                    : AppColors.textPrimary,
-                                fontWeight: FontWeight.w600,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Column(
+                            children: [
+                              Text(
+                                level['color'] as String,
+                                style: const TextStyle(fontSize: 24),
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 4),
+                              Text(
+                                level['label'] as String,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: isSelected
+                                      ? Colors.white
+                                      : AppColors.textPrimary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -216,6 +221,8 @@ class SymptomTrackingView extends GetView<SymptomTrackingController> {
               ),
             ),
           ),
+          // Bottom padding to ensure button is always visible
+          SizedBox(height: MediaQuery.of(context).viewInsets.bottom + 40),
         ],
       ),
     );
